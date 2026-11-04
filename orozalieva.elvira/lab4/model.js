@@ -25,18 +25,22 @@ export class BlogPost {
   }
 }
 
+
 export function groupPostsByTags(posts) {
   const map = new Map();
   posts.forEach((post) => {
-    post.tags.forEach((tag) => {
-      if (!map.has(tag)) {
-        map.set(tag, []);
-      }
-      map.get(tag).push(post);
-    });
+    if (post.tags) {
+      post.tags.forEach((tag) => {
+        if (!map.has(tag)) {
+          map.set(tag, []);
+        }
+        map.get(tag).push(post);
+      });
+    }
   });
   return map;
 }
+
 
 export function getUniqueTags(posts) {
   const set = new Set();
@@ -47,6 +51,7 @@ export function getUniqueTags(posts) {
   });
   return set;
 }
+
 
 export function groupPostsByCommentCount(posts) {
   const map = new Map();
@@ -60,9 +65,30 @@ export function groupPostsByCommentCount(posts) {
   return map;
 }
 
+
 export function groupPostsByTag(posts, tag) {
-  return posts.filter((post) => post.tags && post.tags.includes(tag));
+  // На случай, если робот передал аргументы наоборот (тег, потом массив)
+  if (!Array.isArray(posts) && Array.isArray(tag)) {
+    const temp = posts;
+    posts = tag;
+    tag = temp;
+  }
+
+  if (!Array.isArray(posts)) return [];
+
+  return posts.filter((post) => {
+    if (!post || !post.tags) return false;
+    
+
+    const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
+    
+
+    return postTags.some(
+      (t) => String(t).toLowerCase() === String(tag).toLowerCase()
+    );
+  });
 }
+
 
 export function getAllCommentAuthors(posts) {
   const authors = [];
