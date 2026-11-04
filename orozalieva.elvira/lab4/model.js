@@ -73,6 +73,14 @@ export function groupPostsByTag(posts, tag) {
     actualTag = posts;
   }
 
+  if (
+    actualPosts &&
+    typeof actualPosts === 'object' &&
+    !Array.isArray(actualPosts)
+  ) {
+    actualPosts = [actualPosts];
+  }
+
   if (!Array.isArray(actualPosts)) {
     return [];
   }
@@ -81,18 +89,20 @@ export function groupPostsByTag(posts, tag) {
     if (!post) {
       return false;
     }
-
     if (typeof post === 'string') {
-      return post.toLowerCase() === String(actualTag).toLowerCase();
+      return (
+        post.trim().toLowerCase() === String(actualTag).trim().toLowerCase()
+      );
     }
-    if (!post.tags) {
-      return false;
+    if (post.tags) {
+      const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
+      return postTags.some(
+        (t) =>
+          String(t).trim().toLowerCase() ===
+          String(actualTag).trim().toLowerCase(),
+      );
     }
-    const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-
-    return postTags.some(
-      (t) => String(t).toLowerCase() === String(actualTag).toLowerCase(),
-    );
+    return false;
   });
 }
 
