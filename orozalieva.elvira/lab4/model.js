@@ -73,36 +73,30 @@ export function groupPostsByTag(posts, tag) {
     actualTag = posts;
   }
 
-  if (
-    actualPosts &&
-    typeof actualPosts === 'object' &&
-    !Array.isArray(actualPosts)
-  ) {
-    actualPosts = [actualPosts];
-  }
-
   if (!Array.isArray(actualPosts)) {
     return [];
   }
+
+  const searchTag = String(actualTag).toLowerCase().trim();
 
   return actualPosts.filter((post) => {
     if (!post) {
       return false;
     }
+
     if (typeof post === 'string') {
-      return (
-        post.trim().toLowerCase() === String(actualTag).trim().toLowerCase()
-      );
+      return post.toLowerCase().trim() === searchTag;
     }
-    if (post.tags) {
-      const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-      return postTags.some(
-        (t) =>
-          String(t).trim().toLowerCase() ===
-          String(actualTag).trim().toLowerCase(),
-      );
+
+    if (!post.tags) {
+      return false;
     }
-    return false;
+
+    const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
+
+    return postTags.some((t) => {
+      return String(t).toLowerCase().trim() === searchTag;
+    });
   });
 }
 
