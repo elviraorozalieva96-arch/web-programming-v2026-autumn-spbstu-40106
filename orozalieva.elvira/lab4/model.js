@@ -41,9 +41,9 @@ export function groupPostsByTags(posts) {
 export function getUniqueTags(posts) {
   const set = new Set();
   posts.forEach((post) => {
-    post.tags.forEach((tag) => {
-      set.add(tag);
-    });
+    if (post.tags) {
+      post.tags.forEach((tag) => set.add(tag));
+    }
   });
   return set;
 }
@@ -51,7 +51,7 @@ export function getUniqueTags(posts) {
 export function groupPostsByCommentCount(posts) {
   const map = new Map();
   posts.forEach((post) => {
-    const count = post.commentCount;
+    const count = post.comments ? post.comments.length : 0;
     if (!map.has(count)) {
       map.set(count, []);
     }
@@ -60,16 +60,18 @@ export function groupPostsByCommentCount(posts) {
   return map;
 }
 
-export function getPostsByTag(posts, tag) {
-  return posts.filter((post) => post.tags.includes(tag));
+export function groupPostsByTag(posts, tag) {
+  return posts.filter((post) => post.tags && post.tags.includes(tag));
 }
 
 export function getAllCommentAuthors(posts) {
   const authors = [];
   posts.forEach((post) => {
-    post.comments.forEach((comment) => {
-      authors.push(comment.author);
-    });
+    if (post.comments) {
+      post.comments.forEach((comment) => {
+        authors.push(comment.author);
+      });
+    }
   });
   return authors;
 }
