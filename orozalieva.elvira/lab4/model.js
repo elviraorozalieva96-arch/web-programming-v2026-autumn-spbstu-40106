@@ -29,7 +29,9 @@ export function groupPostsByTags(posts) {
   const map = new Map();
   posts.forEach((post) => {
     post.tags.forEach((tag) => {
-      if (!map.has(tag)) map.set(tag, []);
+      if (!map.has(tag)) {
+        map.set(tag, []);
+      }
       map.get(tag).push(post);
     });
   });
@@ -39,7 +41,9 @@ export function groupPostsByTags(posts) {
 export function getUniqueTags(posts) {
   const set = new Set();
   posts.forEach((post) => {
-    post.tags.forEach((tag) => set.add(tag));
+    post.tags.forEach((tag) => {
+      set.add(tag);
+    });
   });
   return set;
 }
@@ -48,7 +52,9 @@ export function groupPostsByCommentCount(posts) {
   const map = new Map();
   posts.forEach((post) => {
     const count = post.commentCount;
-    if (!map.has(count)) map.set(count, []);
+    if (!map.has(count)) {
+      map.set(count, []);
+    }
     map.get(count).push(post);
   });
   return map;
@@ -61,7 +67,9 @@ export function getPostsByTag(posts, tag) {
 export function getAllCommentAuthors(posts) {
   const authors = [];
   posts.forEach((post) => {
-    post.comments.forEach((comment) => authors.push(comment.author));
+    post.comments.forEach((comment) => {
+      authors.push(comment.author);
+    });
   });
   return authors;
 }

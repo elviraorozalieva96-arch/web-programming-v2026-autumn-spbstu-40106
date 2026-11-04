@@ -1,7 +1,6 @@
-import {BlogPost, getUniqueTags, getAllCommentAuthors} from './model.js';
+import {BlogPost} from './model.js';
 
 let posts = [];
-let nextId = 1;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -10,9 +9,6 @@ function loadFromStorage() {
   if (saved) {
     const parsed = JSON.parse(saved);
     posts = parsed.map((p) => new BlogPost(p.id, p.title, p.tags, p.comments));
-    if (posts.length > 0) {
-      nextId = Math.max(...posts.map((p) => p.id)) + 1;
-    }
   }
 }
 
@@ -30,14 +26,14 @@ function render() {
     card.setAttribute('data-testid', 'entity-card');
 
     const header = document.createElement('div');
-    header.innerHTML = `<h2>${post.title}</h2>`;
+    header.innerHTML = `<h2>${post.title} (ID: ${post.id})</h2>`;
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Удалить пост';
     deleteBtn.setAttribute('data-testid', 'delete-entity');
 
     deleteBtn.onclick = async () => {
       deleteBtn.disabled = true;
-      await delay(300); // Имитация задержки
+      await delay(300);
       posts = posts.filter((p) => p.id !== post.id);
       saveToStorage();
       render();
@@ -49,11 +45,12 @@ function render() {
     post.tags.forEach((tag) => {
       const tagSpan = document.createElement('span');
       tagSpan.className = 'tag';
-      tagSpan.textContent = tag + ' ';
+      tagSpan.textContent = `${tag} `;
 
       const removeTagBtn = document.createElement('button');
       removeTagBtn.textContent = 'x';
       removeTagBtn.onclick = async () => {
+        removeTagBtn.disabled = true;
         await delay(200);
         post.removeTag(tag);
         saveToStorage();
@@ -119,16 +116,25 @@ function render() {
 
 document.getElementById('add-post-form').onsubmit = async (e) => {
   e.preventDefault();
+  const idInput = e.target.elements['id'];
   const titleInput = e.target.elements['title'];
+
+  const idValue = Number(idInput.value);
   const title = titleInput.value.trim();
 
-  if (title) {
+  if (title && !isNaN(idValue)) {
+    idInput.disabled = true;
     titleInput.disabled = true;
     await delay(300);
-    const newPost = new BlogPost(nextId++, title);
+
+    const newPost = new BlogPost(idValue, title);
     posts.push(newPost);
+
     saveToStorage();
+
+    idInput.value = '';
     titleInput.value = '';
+    idInput.disabled = false;
     titleInput.disabled = false;
     render();
   }
