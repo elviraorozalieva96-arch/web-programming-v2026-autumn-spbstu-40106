@@ -64,11 +64,10 @@ export function groupPostsByCommentCount(posts) {
   return map;
 }
 
-// ВОТ ЗДЕСЬ МАКСИМАЛЬНАЯ ЗАЩИТА
 export function groupPostsByTag(posts, tag) {
-  // Если аргументы передали наоборот (тег, потом массив)
   let actualPosts = posts;
   let actualTag = tag;
+
   if (!Array.isArray(actualPosts) && Array.isArray(actualTag)) {
     actualPosts = tag;
     actualTag = posts;
@@ -79,11 +78,18 @@ export function groupPostsByTag(posts, tag) {
   }
 
   return actualPosts.filter((post) => {
-    if (!post || !post.tags) {
+    if (!post) {
+      return false;
+    }
+
+    if (typeof post === 'string') {
+      return post.toLowerCase() === String(actualTag).toLowerCase();
+    }
+    if (!post.tags) {
       return false;
     }
     const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-    // Игнорируем регистр букв
+
     return postTags.some(
       (t) => String(t).toLowerCase() === String(actualTag).toLowerCase(),
     );
