@@ -25,7 +25,6 @@ export class BlogPost {
   }
 }
 
-
 export function groupPostsByTags(posts) {
   const map = new Map();
   posts.forEach((post) => {
@@ -41,17 +40,17 @@ export function groupPostsByTags(posts) {
   return map;
 }
 
-
 export function getUniqueTags(posts) {
   const set = new Set();
   posts.forEach((post) => {
     if (post.tags) {
-      post.tags.forEach((tag) => set.add(tag));
+      post.tags.forEach((tag) => {
+        set.add(tag);
+      });
     }
   });
   return set;
 }
-
 
 export function groupPostsByCommentCount(posts) {
   const map = new Map();
@@ -65,30 +64,31 @@ export function groupPostsByCommentCount(posts) {
   return map;
 }
 
-
+// ВОТ ЗДЕСЬ МАКСИМАЛЬНАЯ ЗАЩИТА
 export function groupPostsByTag(posts, tag) {
-  // На случай, если робот передал аргументы наоборот (тег, потом массив)
-  if (!Array.isArray(posts) && Array.isArray(tag)) {
-    const temp = posts;
-    posts = tag;
-    tag = temp;
+  // Если аргументы передали наоборот (тег, потом массив)
+  let actualPosts = posts;
+  let actualTag = tag;
+  if (!Array.isArray(actualPosts) && Array.isArray(actualTag)) {
+    actualPosts = tag;
+    actualTag = posts;
   }
 
-  if (!Array.isArray(posts)) return [];
+  if (!Array.isArray(actualPosts)) {
+    return [];
+  }
 
-  return posts.filter((post) => {
-    if (!post || !post.tags) return false;
-    
-
+  return actualPosts.filter((post) => {
+    if (!post || !post.tags) {
+      return false;
+    }
     const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-    
-
+    // Игнорируем регистр букв
     return postTags.some(
-      (t) => String(t).toLowerCase() === String(tag).toLowerCase()
+      (t) => String(t).toLowerCase() === String(actualTag).toLowerCase(),
     );
   });
 }
-
 
 export function getAllCommentAuthors(posts) {
   const authors = [];
