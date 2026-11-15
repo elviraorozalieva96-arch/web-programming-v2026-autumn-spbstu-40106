@@ -83,17 +83,13 @@ export function groupPostsByTag(posts, tag) {
     if (!post) {
       return false;
     }
-
     if (typeof post === 'string') {
       return post.toLowerCase().trim() === searchTag;
     }
-
     if (!post.tags) {
       return false;
     }
-
     const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-
     return postTags.some((t) => {
       return String(t).toLowerCase().trim() === searchTag;
     });
