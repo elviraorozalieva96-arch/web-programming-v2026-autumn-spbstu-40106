@@ -86,45 +86,146 @@ export default function App() {
         {display}
       </div>
       <div className="keypad">
-        <button onClick={clearDisplay} className="key-clear">
+        <button
+          data-testid="calculator-key"
+          data-value="C"
+          onClick={clearDisplay}
+          className="key-clear"
+        >
           C
         </button>
-        <button onClick={toggleSign} className="key-function">
+        <button
+          data-testid="calculator-key"
+          data-value="+/-"
+          onClick={toggleSign}
+          className="key-function"
+        >
           +/-
         </button>
-        <button onClick={inputPercent} className="key-function">
+        <button
+          data-testid="calculator-key"
+          data-value="%"
+          onClick={inputPercent}
+          className="key-function"
+        >
           %
         </button>
-        <button onClick={() => performOperation('/')} className="key-operator">
+        <button
+          data-testid="calculator-key"
+          data-value="/"
+          onClick={() => performOperation('/')}
+          className="key-operator"
+        >
           /
         </button>
 
-        <button onClick={() => inputDigit(7)}>7</button>
-        <button onClick={() => inputDigit(8)}>8</button>
-        <button onClick={() => inputDigit(9)}>9</button>
-        <button onClick={() => performOperation('*')} className="key-operator">
+        <button
+          data-testid="calculator-key"
+          data-value="7"
+          onClick={() => inputDigit(7)}
+        >
+          7
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="8"
+          onClick={() => inputDigit(8)}
+        >
+          8
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="9"
+          onClick={() => inputDigit(9)}
+        >
+          9
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="*"
+          onClick={() => performOperation('*')}
+          className="key-operator"
+        >
           *
         </button>
 
-        <button onClick={() => inputDigit(4)}>4</button>
-        <button onClick={() => inputDigit(5)}>5</button>
-        <button onClick={() => inputDigit(6)}>6</button>
-        <button onClick={() => performOperation('-')} className="key-operator">
+        <button
+          data-testid="calculator-key"
+          data-value="4"
+          onClick={() => inputDigit(4)}
+        >
+          4
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="5"
+          onClick={() => inputDigit(5)}
+        >
+          5
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="6"
+          onClick={() => inputDigit(6)}
+        >
+          6
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="-"
+          onClick={() => performOperation('-')}
+          className="key-operator"
+        >
           -
         </button>
 
-        <button onClick={() => inputDigit(1)}>1</button>
-        <button onClick={() => inputDigit(2)}>2</button>
-        <button onClick={() => inputDigit(3)}>3</button>
-        <button onClick={() => performOperation('+')} className="key-operator">
+        <button
+          data-testid="calculator-key"
+          data-value="1"
+          onClick={() => inputDigit(1)}
+        >
+          1
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="2"
+          onClick={() => inputDigit(2)}
+        >
+          2
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="3"
+          onClick={() => inputDigit(3)}
+        >
+          3
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="+"
+          onClick={() => performOperation('+')}
+          className="key-operator"
+        >
           +
         </button>
 
-        <button onClick={() => inputDigit(0)} className="key-zero">
+        <button
+          data-testid="calculator-key"
+          data-value="0"
+          onClick={() => inputDigit(0)}
+          className="key-zero"
+        >
           0
         </button>
-        <button onClick={inputDot}>.</button>
-        <button onClick={handleEquals} className="key-equals">
+        <button data-testid="calculator-key" data-value="." onClick={inputDot}>
+          .
+        </button>
+        <button
+          data-testid="calculator-key"
+          data-value="="
+          onClick={handleEquals}
+          className="key-equals"
+        >
           =
         </button>
       </div>
