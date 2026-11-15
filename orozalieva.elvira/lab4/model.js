@@ -26,26 +26,29 @@ export class BlogPost {
 }
 
 export function groupPostsByTag(posts, tag) {
-  // Если вдруг пришел не массив - возвращаем пустой массив
-  if (!Array.isArray(posts)) {
-    return [];
-  }
+  const resultMap = new Map();
 
-  // Приводим искомый тег к строке
+  // Приводим искомый тег к нижнему регистру и убираем пробелы
   const searchTag = String(tag).toLowerCase().trim();
 
-  return posts.filter((post) => {
+  if (!Array.isArray(posts)) {
+    return resultMap;
+  }
+
+  const filteredPosts = posts.filter((post) => {
     if (!post || !post.tags) {
       return false;
     }
-    // Если теги - строка, делаем из нее массив
     const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
-
-    // Проверяем, есть ли совпадение
-    return postTags.some((t) => {
-      return String(t).toLowerCase().trim() === searchTag;
-    });
+    return postTags.some((t) => String(t).toLowerCase().trim() === searchTag);
   });
+
+  // Если нашлись посты, кладем их в Map под исходным ключом тега
+  if (filteredPosts.length > 0) {
+    resultMap.set(tag, filteredPosts);
+  }
+
+  return resultMap;
 }
 
 export function getUniqueTags(posts) {
