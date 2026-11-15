@@ -113,6 +113,7 @@ export default function App() {
         <button
           data-testid="calculator-key"
           data-value="/"
+          data-operation="divide"
           onClick={() => performOperation('/')}
           className="key-operator"
         >
@@ -143,6 +144,7 @@ export default function App() {
         <button
           data-testid="calculator-key"
           data-value="*"
+          data-operation="multiply"
           onClick={() => performOperation('*')}
           className="key-operator"
         >
@@ -173,6 +175,7 @@ export default function App() {
         <button
           data-testid="calculator-key"
           data-value="-"
+          data-operation="subtract"
           onClick={() => performOperation('-')}
           className="key-operator"
         >
@@ -203,6 +206,7 @@ export default function App() {
         <button
           data-testid="calculator-key"
           data-value="+"
+          data-operation="add"
           onClick={() => performOperation('+')}
           className="key-operator"
         >
@@ -221,7 +225,7 @@ export default function App() {
           .
         </button>
         <button
-          data-testid="calculator-key"
+          data-testid="calculator-equals"
           data-value="="
           onClick={handleEquals}
           className="key-equals"
