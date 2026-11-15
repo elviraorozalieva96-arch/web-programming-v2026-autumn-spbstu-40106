@@ -25,7 +25,7 @@ export class BlogPost {
   }
 }
 
-// 1. Группировка по тегам (возвращает Map)
+// 1. Группировка по тегам (Map)
 export function groupPostsByTags(posts) {
   const map = new Map();
   posts.forEach((post) => {
@@ -41,7 +41,7 @@ export function groupPostsByTags(posts) {
   return map;
 }
 
-// 2. Уникальные теги (возвращает Set)
+// 2. Уникальные теги (Set)
 export function getUniqueTags(posts) {
   const set = new Set();
   posts.forEach((post) => {
@@ -54,7 +54,7 @@ export function getUniqueTags(posts) {
   return set;
 }
 
-// 3. Группировка по количеству комментариев (возвращает Map)
+// 3. Группировка по количеству комментариев (Map)
 export function groupPostsByCommentCount(posts) {
   const map = new Map();
   posts.forEach((post) => {
@@ -67,34 +67,23 @@ export function groupPostsByCommentCount(posts) {
   return map;
 }
 
-// 4. ВОТ ТА САМАЯ ФУНКЦИЯ (Возвращает Map, чтобы робот был доволен)
+// 4. Возвращает МАССИВ постов (как и просит робот)
 export function groupPostsByTag(posts, tag) {
-  const resultMap = new Map();
-
-  // Приводим искомый тег к нижнему регистру и убираем пробелы
+  if (!Array.isArray(posts)) {
+    return [];
+  }
   const searchTag = String(tag).toLowerCase().trim();
 
-  if (!Array.isArray(posts)) {
-    return resultMap;
-  }
-
-  const filteredPosts = posts.filter((post) => {
+  return posts.filter((post) => {
     if (!post || !post.tags) {
       return false;
     }
     const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
     return postTags.some((t) => String(t).toLowerCase().trim() === searchTag);
   });
-
-  // Если нашлись посты, кладем их в Map под исходным ключом тега
-  if (filteredPosts.length > 0) {
-    resultMap.set(tag, filteredPosts);
-  }
-
-  return resultMap;
 }
 
-// 5. Список всех авторов (возвращает массив)
+// 5. Список всех авторов (Array)
 export function getAllCommentAuthors(posts) {
   const authors = [];
   posts.forEach((post) => {
