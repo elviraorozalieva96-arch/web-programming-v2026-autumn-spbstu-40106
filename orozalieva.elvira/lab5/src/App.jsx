@@ -11,7 +11,6 @@ export default function App() {
       setDisplay(String(digit));
       setWaitingForOperand(false);
     } else {
-      // ИСПРАВЛЕНО: используем шаблонную строку вместо +
       setDisplay(display === '0' ? String(digit) : `${display}${digit}`);
     }
   };
@@ -43,7 +42,6 @@ export default function App() {
   const performOperation = (nextOperator) => {
     const inputValue = parseFloat(display);
 
-    // ИСПРАВЛЕНО: строгое равенство ===
     if (value === null) {
       setValue(inputValue);
     } else if (operator) {
@@ -75,7 +73,6 @@ export default function App() {
   };
 
   const handleEquals = () => {
-    // ИСПРАВЛЕНО: строгое равенство === и фигурные скобки {}
     if (!operator || value === null) {
       return;
     }
@@ -85,7 +82,9 @@ export default function App() {
 
   return (
     <div className="calculator">
-      <div className="display">{display}</div>
+      <div className="display" data-testid="calculator-display">
+        {display}
+      </div>
       <div className="keypad">
         <button onClick={clearDisplay} className="key-clear">
           C
