@@ -86,8 +86,9 @@ export default function App() {
         {display}
       </div>
       <div className="keypad">
+        {/* ИСПРАВЛЕНИЕ: У кнопки С теперь свой уникальный data-testid */}
         <button
-          data-testid="calculator-key"
+          data-testid="calculator-clear"
           data-value="C"
           onClick={clearDisplay}
           className="key-clear"
