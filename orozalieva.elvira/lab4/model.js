@@ -25,19 +25,27 @@ export class BlogPost {
   }
 }
 
-export function groupPostsByTags(posts) {
-  const map = new Map();
-  posts.forEach((post) => {
-    if (post.tags) {
-      post.tags.forEach((tag) => {
-        if (!map.has(tag)) {
-          map.set(tag, []);
-        }
-        map.get(tag).push(post);
-      });
+export function groupPostsByTag(posts, tag) {
+  // Если вдруг пришел не массив - возвращаем пустой массив
+  if (!Array.isArray(posts)) {
+    return [];
+  }
+
+  // Приводим искомый тег к строке
+  const searchTag = String(tag).toLowerCase().trim();
+
+  return posts.filter((post) => {
+    if (!post || !post.tags) {
+      return false;
     }
+    // Если теги - строка, делаем из нее массив
+    const postTags = Array.isArray(post.tags) ? post.tags : [post.tags];
+
+    // Проверяем, есть ли совпадение
+    return postTags.some((t) => {
+      return String(t).toLowerCase().trim() === searchTag;
+    });
   });
-  return map;
 }
 
 export function getUniqueTags(posts) {
